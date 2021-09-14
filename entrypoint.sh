@@ -7,14 +7,15 @@
 USER_ID=${uid:-9001}
 GROUP_ID=${gid:-9001}
 
-#addgroup --gid $GROUP_ID mygroup
-#adduser --disabled-password myuser --uid $USER_ID --gecos myuser --ingroup mygroup --shell /bin/sh
+addgroup --gid $GROUP_ID mygroup
+adduser --disabled-password myuser --uid $USER_ID --gecos myuser --ingroup mygroup --shell /bin/sh
 
 echo "UID : $USER_ID \nGID : $GROUP_ID"
-#useradd --shell /bin/bash -u $USER_ID -o -c "" -m user
-#export HOME=/home/user
+useradd --shell /bin/bash -u $USER_ID -o -c "" -m user
+export HOME=/home/user
 
 chown -R $USER_ID:$GROUP_ID /home/plugins
 chown -R $USER_ID:$GROUP_ID /home/script
+chmod 700 ./home/script/streamlink-recorder.sh
 
-exec gosu $USER_ID "$@"
+exec gosu myuser './home/script/streamlink-recorder.sh' ${STREAM_OPTIONS} ${STREAM_QUALITY} ${STREAM_NAME}

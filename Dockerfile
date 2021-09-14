@@ -1,15 +1,29 @@
-FROM python:3.9.0-buster
-LABEL maintainer="lauwarm@mailbox.org"
+FROM python:3.9.7-buster
 
-ENV streamlinkVersion=2.0.0
+ARG STREAMLINK_VERSION
+ARG STREAM_OPTIONS
+ARG STREAMLINK
+ARG STREAM_QUALITY
+ARG STREAM_NAME
+ENV STREAMLINK_VERSION=$STREAMLINK_VERSION
+ENV STREAM_OPTIONS=$STREAM_OPTIONS
+ENV STREAM_QUALITY=$STREAM_QUALITY
+ENV STREAM_NAME=$STREAM_NAME
 
-ADD https://github.com/streamlink/streamlink/releases/download/${streamlinkVersion}/streamlink-${streamlinkVersion}.tar.gz /opt/
+RUN echo Arguments passed in:
+RUN echo STREAMLINK_VERSION -> $STREAMLINK_VERSION
+RUN echo STREAM_OPTIONS -> $STREAM_OPTIONS
+RUN echo STREAM_QUALITY -> $STREAM_QUALITY
+RUN echo STREAM_NAME -> $STREAM_NAME
+#ENV STREAMLINK_VERSION=2.4.0
+
+ADD https://github.com/streamlink/streamlink/releases/download/${STREAMLINK_VERSION}/streamlink-${STREAMLINK_VERSION}.tar.gz /opt/
 
 RUN apt-get update && apt-get install gosu
 
-RUN tar -xzf /opt/streamlink-${streamlinkVersion}.tar.gz -C /opt/ && \
-	rm /opt/streamlink-${streamlinkVersion}.tar.gz && \
-	cd /opt/streamlink-${streamlinkVersion}/ && \
+RUN tar -xzf /opt/streamlink-${STREAMLINK_VERSION}.tar.gz -C /opt/ && \
+	rm /opt/streamlink-${STREAMLINK_VERSION}.tar.gz && \
+	cd /opt/streamlink-${STREAMLINK_VERSION}/ && \
 	python setup.py install
 
 RUN mkdir /home/download
@@ -21,10 +35,4 @@ COPY ./entrypoint.sh /home/script
 
 RUN ["chmod", "+x", "/home/script/entrypoint.sh"]
 
-ENTRYPOINT [ "/home/script/entrypoint.sh" ]
-
-# replace with gosu???
-#USER myuser
-
-# point entrypoint to /bin/sh???
-CMD /bin/sh ./home/script/streamlink-recorder.sh ${streamOptions} ${streamLink} ${streamQuality} ${streamName}
+ENTRYPOINT [ "sh", "/home/script/entrypoint.sh" ]

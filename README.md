@@ -7,32 +7,23 @@ This is a Docker Container to record a livestream. It uses the official [Python 
 ## Usage
 To run the Container:
 ```bash
-$ docker run -v /path/to/vod/folder/:/home/download -e streamLink='' -e streamQuality='' -e streamName='' -e streamOptions='' -e uid='' -e gid='' lauwarm/streamlink-recorder
-```
-
-Example:
-```bash
-$ docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQuality='best' -e streamName='twitch' -e streamOptions='--twitch-disable-hosting' -e uid='1001' -e gid='1001' lauwarm/streamlink-recorder
+$ docker-compose up -d
 ```
 
 ## Notes
-
-`/home/download` - the place where the vods will be saved. Mount it to a desired place with `-v` option.
+    
+`/home/download` - the place where the vods will be saved. Mount it to a desired place with `-v` option or replace docker-compose volume.
 
 `/home/script` - the place where the scripts are stored. (entrypoint.sh and streamlink-recorder.sh)
 
 `/home/plugins` - the place where the streamlink plugins are stored.
 
-`streamLink` - the url of the stream you want to record.
+`STREAM_QUALITY` - quality options "720p,480p,best"
 
-`streamQuality` - quality options (best, high, medium, low).
+`STREAM_QUALITY` - name for the stream.
 
-`streamName` - name for the stream.
+`STREAM_OPTIONS` - streamlink flags (--twitch-disable-hosting, separated by space)
 
-`streamOptions` - streamlink flags (--twitch-disable-hosting, separated by space)
-
-`uid` - USER ID, map to your desired User ID (fallback to 9001)
-
-`gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
+Read more from documentation: https://streamlink.github.io/cli.html
 
 The File will be saved as `streamName-YearMonthDay-HourMinuteSecond.mkv`
