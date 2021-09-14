@@ -2,14 +2,15 @@ version: "3"
 services:
   streamlink:
     tty: true
+    environment:
+      STREAM_OPTIONS: '--twitch-disable-hosting --twitch-disable-ads --twitch-disable-reruns'
+      STREAM_QUALITY: '720p'
+      STREAM_NAME: 'streamerName'
     build:
       context: .
       dockerfile: Dockerfile
       args:
         STREAMLINK_VERSION: '2.4.0'
-        STREAM_OPTIONS: '--twitch-disable-hosting --twitch-disable-ads --twitch-disable-reruns'
-        STREAM_QUALITY: '720p'
-        STREAM_NAME: 'streamerName'
     container_name: streamlink
     volumes:
       - /user_name/twitch:/home/download
