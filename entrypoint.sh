@@ -14,8 +14,10 @@ echo "UID : $USER_ID \nGID : $GROUP_ID"
 useradd --shell /bin/bash -u $USER_ID -o -c "" -m user
 export HOME=/home/user
 
+mkdir /home/download
 chown -R $USER_ID:$GROUP_ID /home/plugins
 chown -R $USER_ID:$GROUP_ID /home/script
+chown -R $USER_ID:$GROUP_ID /home/download
 chmod 700 ./home/script/streamlink-recorder.sh
 
 exec gosu myuser './home/script/streamlink-recorder.sh' ${STREAM_OPTIONS} ${STREAM_QUALITY} ${STREAM_NAME}

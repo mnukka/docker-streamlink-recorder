@@ -4,7 +4,7 @@ services:
     tty: true
     environment:
       STREAM_OPTIONS: '--twitch-disable-hosting --twitch-disable-ads --twitch-disable-reruns'
-      STREAM_QUALITY: '720p'
+      STREAM_QUALITY: '720p60'
       STREAM_NAME: 'streamerName'
     build:
       context: .
@@ -12,7 +12,7 @@ services:
       args:
         STREAMLINK_VERSION: '2.4.0'
         STREAM_OPTIONS: '--twitch-disable-hosting --twitch-disable-ads --twitch-disable-reruns'
-        STREAM_QUALITY: '720p'
+        STREAM_QUALITY: '720p60'
         STREAM_NAME: 'streamerName'
     container_name: streamlink
     volumes:
